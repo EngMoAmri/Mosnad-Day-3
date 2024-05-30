@@ -84,18 +84,7 @@ class AddScheduleViewModel extends GetxController {
             "Subject": subjectNameController.text,
           }
       );
-      // // set an alarm to stop or cancel the alarm at the end date
-      // AndroidAlarmManager.oneShotAt(endDate.value!,
-      //     scheduleId+1000000,// to avoid conflicts with study alarms
-      //     alarmHandler,
-      //     allowWhileIdle: true,
-      //     exact: (await Permission.scheduleExactAlarm.request()).isGranted,
-      //     wakeup: true,
-      //     rescheduleOnReboot: true,
-      //     params: {
-      //       "StudyAlarmID": "${scheduleId*10}",
-      //     }
-      // );
+
 
     }else{
       int day = 0;
@@ -114,18 +103,7 @@ class AddScheduleViewModel extends GetxController {
               params: {
                 "Subject": subjectNameController.text,
               });
-          // // set an alarm to stop or cancel the alarm at the end date
-          // AndroidAlarmManager.oneShotAt(endDate.value!,
-          //     ((scheduleId*10)+day)*1000000,// to avoid conflicts with study alarms
-          //     alarmHandler,
-          //     allowWhileIdle: true,
-          //     exact: (await Permission.scheduleExactAlarm.request()).isGranted,
-          //     wakeup: true,
-          //     rescheduleOnReboot: true,
-          //     params: {
-          //       "StudyAlarmID": "${(scheduleId*10)+day}",
-          //     }
-          // );
+
 
         }
         day++;
@@ -135,75 +113,7 @@ class AddScheduleViewModel extends GetxController {
 
   }
 
-  // void testAddSchedule() async{
-  //   saving.value = true;
-  //
-  //   // Add to local database then
-  //
-  //   int scheduleId = 0;// get the id from the database
-  //   var startDateTime = DateTime.now();
-  //   if(repeat.value == 1){
-  //     AndroidAlarmManager.periodic(const Duration(seconds: 15),
-  //         scheduleId*10,// we multiply by 10 to avoid conflicts with specifics days alarms
-  //         alarmHandler,
-  //         startAt: startDateTime,
-  //         allowWhileIdle: true,
-  //         exact: (await Permission.scheduleExactAlarm.request()).isGranted,
-  //         wakeup: true,
-  //         rescheduleOnReboot: true,
-  //         params: {
-  //           "Subject": subjectNameController.text,
-  //         }
-  //     );
-  //     // set an alarm to stop or cancel the alarm at the end date
-  //     AndroidAlarmManager.oneShotAt(startDateTime.add(const Duration(minutes: 2)),
-  //         scheduleId+1000000,// to avoid conflicts with study alarms
-  //         alarmHandler,
-  //         allowWhileIdle: true,
-  //         exact: (await Permission.scheduleExactAlarm.request()).isGranted,
-  //         wakeup: true,
-  //         rescheduleOnReboot: true,
-  //         params: {
-  //           "StudyAlarmID": "${scheduleId*10}",
-  //         }
-  //     );
-  //
-  //   }else{
-  //     int part = 0;
-  //     while(part < 4) {
-  //       if(part % 2 == 1) {
-  //         AndroidAlarmManager.periodic(
-  //             const Duration(minutes: 1),
-  //             (scheduleId*10)+part, // here we jus add the day index
-  //             alarmHandler,
-  //             startAt: startDateTime.add(Duration(seconds: part*15)),
-  //             allowWhileIdle: true,
-  //             exact: (await Permission.scheduleExactAlarm.request()).isGranted,
-  //             wakeup: true,
-  //             rescheduleOnReboot: true,
-  //             params: {
-  //               "Subject": subjectNameController.text,
-  //             });
-  //         // set an alarm to stop or cancel the alarm at the end date
-  //         AndroidAlarmManager.oneShotAt(endDate.value!,
-  //             ((scheduleId*10)+part)*1000000,// to avoid conflicts with study alarms
-  //             alarmHandler,
-  //             allowWhileIdle: true,
-  //             exact: (await Permission.scheduleExactAlarm.request()).isGranted,
-  //             wakeup: true,
-  //             rescheduleOnReboot: true,
-  //             params: {
-  //               "StudyAlarmID": "${(scheduleId*10)+part}",
-  //             }
-  //         );
-  //
-  //       }
-  //       part++;
-  //     }
-  //   }
-  //   saving.value = false;
-  //
-  // }
+
 }
 // extension to find the next day datetime
 extension DateTimeExtension on DateTime {
