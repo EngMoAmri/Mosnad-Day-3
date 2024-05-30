@@ -4,7 +4,9 @@ import 'dart:isolate';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
+import 'package:mosnad_3/database/mock_data_helper.dart';
 import 'package:mosnad_3/views/add_scedule_page.dart';
+import 'package:mosnad_3/views/schedules_veiw.dart';
 
 import 'database/my_database.dart';
 import 'package:android_alarm_manager_plus/android_alarm_manager_plus.dart';
@@ -51,6 +53,7 @@ void main() async{
   // Be sure to add this line if initialize() call happens before runApp()
   WidgetsFlutterBinding.ensureInitialized();
 
+  // await MockDataHelper().init();
   await AndroidAlarmManager.initialize();
   await MyDatabase.open();
   //
@@ -88,12 +91,12 @@ class MyApp extends StatelessWidget {
         AndroidFlutterLocalNotificationsPlugin>()!.requestNotificationsPermission();
 
     return GetMaterialApp(
-      title: 'Flutter Demo',
+      title: '',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurpleAccent),
         useMaterial3: true,
       ),
-      home: const AddSchedulePage(),
+      home:  SchedulesView(),
     );
   }
 }
