@@ -66,7 +66,6 @@ void main() async{
   await MyDatabase.open();
 
   runApp(const MyApp());
-
 }
 
 
