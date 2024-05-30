@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 
-void main() {
+import 'database/my_database.dart';
+
+void main() async{
+  await MyDatabase.open();
   runApp(const MyApp());
 }
+
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
