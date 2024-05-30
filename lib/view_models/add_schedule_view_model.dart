@@ -84,18 +84,18 @@ class AddScheduleViewModel extends GetxController {
             "Subject": subjectNameController.text,
           }
       );
-      // // set an alarm to stop or cancel the alarm at the end date
-      // AndroidAlarmManager.oneShotAt(endDate.value!,
-      //     scheduleId+1000000,// to avoid conflicts with study alarms
-      //     alarmHandler,
-      //     allowWhileIdle: true,
-      //     exact: (await Permission.scheduleExactAlarm.request()).isGranted,
-      //     wakeup: true,
-      //     rescheduleOnReboot: true,
-      //     params: {
-      //       "StudyAlarmID": "${scheduleId*10}",
-      //     }
-      // );
+      // set an alarm to stop or cancel the alarm at the end date
+      AndroidAlarmManager.oneShotAt(endDate.value!,
+          scheduleId+1000000,// to avoid conflicts with study alarms
+          alarmHandler,
+          allowWhileIdle: true,
+          exact: (await Permission.scheduleExactAlarm.request()).isGranted,
+          wakeup: true,
+          rescheduleOnReboot: true,
+          params: {
+            "StudyAlarmID": "${scheduleId*10}",
+          }
+      );
 
     }else{
       int day = 0;
@@ -114,18 +114,18 @@ class AddScheduleViewModel extends GetxController {
               params: {
                 "Subject": subjectNameController.text,
               });
-          // // set an alarm to stop or cancel the alarm at the end date
-          // AndroidAlarmManager.oneShotAt(endDate.value!,
-          //     ((scheduleId*10)+day)*1000000,// to avoid conflicts with study alarms
-          //     alarmHandler,
-          //     allowWhileIdle: true,
-          //     exact: (await Permission.scheduleExactAlarm.request()).isGranted,
-          //     wakeup: true,
-          //     rescheduleOnReboot: true,
-          //     params: {
-          //       "StudyAlarmID": "${(scheduleId*10)+day}",
-          //     }
-          // );
+          // set an alarm to stop or cancel the alarm at the end date
+          AndroidAlarmManager.oneShotAt(endDate.value!,
+              ((scheduleId*10)+day)*1000000,// to avoid conflicts with study alarms
+              alarmHandler,
+              allowWhileIdle: true,
+              exact: (await Permission.scheduleExactAlarm.request()).isGranted,
+              wakeup: true,
+              rescheduleOnReboot: true,
+              params: {
+                "StudyAlarmID": "${(scheduleId*10)+day}",
+              }
+          );
 
         }
         day++;
@@ -140,15 +140,15 @@ class AddScheduleViewModel extends GetxController {
   //
   //   // Add to local database then
   //
-  //   int scheduleId = 0;// get the id from the database
+  //   int scheduleId = 1;// get the id from the database
   //   var startDateTime = DateTime.now();
   //   if(repeat.value == 1){
-  //     AndroidAlarmManager.periodic(const Duration(seconds: 15),
+  //     AndroidAlarmManager.periodic(const Duration(seconds: 10),
   //         scheduleId*10,// we multiply by 10 to avoid conflicts with specifics days alarms
   //         alarmHandler,
-  //         startAt: startDateTime,
+  //         startAt: startDateTime.add(const Duration(seconds: 3)),
   //         allowWhileIdle: true,
-  //         exact: (await Permission.scheduleExactAlarm.request()).isGranted,
+  //         exact: true,
   //         wakeup: true,
   //         rescheduleOnReboot: true,
   //         params: {
@@ -157,10 +157,10 @@ class AddScheduleViewModel extends GetxController {
   //     );
   //     // set an alarm to stop or cancel the alarm at the end date
   //     AndroidAlarmManager.oneShotAt(startDateTime.add(const Duration(minutes: 2)),
-  //         scheduleId+1000000,// to avoid conflicts with study alarms
+  //         (scheduleId*10)+1000000,// to avoid conflicts with study alarms
   //         alarmHandler,
   //         allowWhileIdle: true,
-  //         exact: (await Permission.scheduleExactAlarm.request()).isGranted,
+  //         exact: true,
   //         wakeup: true,
   //         rescheduleOnReboot: true,
   //         params: {
@@ -170,15 +170,15 @@ class AddScheduleViewModel extends GetxController {
   //
   //   }else{
   //     int part = 0;
-  //     while(part < 4) {
+  //     while(part < 6) {
   //       if(part % 2 == 1) {
   //         AndroidAlarmManager.periodic(
   //             const Duration(minutes: 1),
   //             (scheduleId*10)+part, // here we jus add the day index
   //             alarmHandler,
-  //             startAt: startDateTime.add(Duration(seconds: part*15)),
+  //             startAt: startDateTime.add(Duration(seconds: part*10)),
   //             allowWhileIdle: true,
-  //             exact: (await Permission.scheduleExactAlarm.request()).isGranted,
+  //             exact: true,
   //             wakeup: true,
   //             rescheduleOnReboot: true,
   //             params: {
@@ -189,7 +189,7 @@ class AddScheduleViewModel extends GetxController {
   //             ((scheduleId*10)+part)*1000000,// to avoid conflicts with study alarms
   //             alarmHandler,
   //             allowWhileIdle: true,
-  //             exact: (await Permission.scheduleExactAlarm.request()).isGranted,
+  //             exact: true,
   //             wakeup: true,
   //             rescheduleOnReboot: true,
   //             params: {
