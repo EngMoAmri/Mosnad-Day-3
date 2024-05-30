@@ -33,8 +33,8 @@ class MyDatabase {
             subject_id INTEGER NOT NULL, 
             start_date INTEGER NOT NULL, 
             end_date INTEGER NOT NULL, 
-            start_time INTEGER NOT NULL, 
-            end_time INTEGER NOT NULL, 
+            start_time TEXT NOT NULL, 
+            end_time TEXT NOT NULL, 
             repeat TEXT NOT NULL,
             status TEXT NOT NULL,
             reminder_time INTEGER NOT NULL,
@@ -54,7 +54,6 @@ class MyDatabase {
       // path to perform database upgrades and downgrades.
       version: 1,
     );
-
     return myDatabase!;
   }
 

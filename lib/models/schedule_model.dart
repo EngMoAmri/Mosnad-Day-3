@@ -3,8 +3,8 @@ class Schedule {
   int? subjectId;
   int? startDate;
   int? endDate;
-  int? startTime;
-  int? endTime;
+  String? startTime;
+  String? endTime;
   String? repeat;
   String? status;
   int? reminderTime;
