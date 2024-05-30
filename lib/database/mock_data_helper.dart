@@ -6,9 +6,9 @@ import 'package:mosnad_3/models/schedule_model.dart';
 import 'package:mosnad_3/models/subject_model.dart';
 
 class MockDataHelper {
-  final dbLocal = DatabaseHelper();
+   final dbLocal = DatabaseHelper();
 
-  static Future<void> init() async {
+   Future<void> init() async {
     List<Subject> mockSubjects = createMockSubjects(5);
     List<Schedule> mockSchedules = createMockSchedules(5, mockSubjects);
     List<Reminder> mockReminders = createMockReminders(5, mockSchedules);
@@ -16,16 +16,19 @@ class MockDataHelper {
     // Printing mock data for demonstration
     print('Mock Subjects:');
     for (var subject in mockSubjects) {
+      dbLocal.insertSubject(subject);
       print(subject.toMap());
     }
 
     print('\nMock Schedules:');
     for (var schedule in mockSchedules) {
+      dbLocal.insertSchedule(schedule);
       print(schedule.toMap());
     }
 
     print('\nMock Reminders:');
     for (var reminder in mockReminders) {
+      dbLocal.insertReminder(reminder);
       print(reminder.toMap());
     }
   }
@@ -48,7 +51,7 @@ class MockDataHelper {
 
   static List<Schedule> createMockSchedules(int count, List<Subject> subjects) {
     List<String> repeats = ['None', 'Daily', 'Weekly', 'Monthly'];
-    List<String> statuses = ['Pending', 'Completed', 'Cancelled'];
+    List<String> statuses = [STATUS.ACTIVE.name,STATUS.PAUSE.name];
     List<Schedule> schedules = [];
 
     for (int i = 0; i < count; i++) {
