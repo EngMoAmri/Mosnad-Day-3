@@ -1,3 +1,9 @@
+import 'package:mosnad_3/models/subject_model.dart';
+
+enum STATUS {
+  ACTIVE,
+  PAUSE
+}
 class Schedule {
   int? id;
   int? subjectId;
@@ -6,8 +12,9 @@ class Schedule {
   String? startTime;
   String? endTime;
   String? repeat;
-  String? status;
+  String? status=STATUS.ACTIVE.name;
   int? reminderTime;
+  Subject? subject;
 
   Schedule({
     this.id,
@@ -19,7 +26,11 @@ class Schedule {
     this.repeat,
     this.status,
     this.reminderTime,
+    this.subject
   });
+
+  get isActive => status==STATUS.ACTIVE.name;
+  get isPause => status==STATUS.PAUSE.name;
 
   Map<String, dynamic> toMap() {
     return {
