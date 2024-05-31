@@ -1,9 +1,10 @@
+import 'package:mosnad_3/models/remainder_model.dart';
+import 'package:mosnad_3/models/schedule_model.dart';
+import 'package:mosnad_3/models/subject_model.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
-import '../models/remainder_model.dart';
-import '../models/schedule_model.dart';
-import '../models/subject_model.dart';
+
 
 class DatabaseHelper {
   static final DatabaseHelper _instance = DatabaseHelper._internal();
@@ -76,6 +77,51 @@ class DatabaseHelper {
     return await db.insert('reminders', reminder.toMap());
   }
 
+  Future<int> updateSubject(Subject subject) async {
+    final db = await database;
+    return await db.update('subjects', subject.toMap(), where: 'id = ?', whereArgs: [subject.id]);
+  }
+
+  Future<int> updateSchedule(Schedule schedule) async {
+    final db = await database;
+    return await db.update('schedules', schedule.toMap(), where: 'id = ?', whereArgs: [schedule.id]);
+  }
+
+  Future<int> updateReminder(Reminder reminder) async {
+    final db = await database;
+    return await db.update('reminders', reminder.toMap(), where: 'id = ?', whereArgs: [reminder.id]);
+  }
+
+
+  Future<Subject?> getSubjectById(int id) async {
+    final db = await database;
+    final List<Map<String, dynamic>> maps = await db.query('subjects', where: 'id = ?', whereArgs: [id]);
+    if (maps.isNotEmpty) {
+      return Subject.fromMap(maps.first);
+    }
+    return null;
+  }
+
+  Future<Schedule?> getScheduleById(int id) async {
+    final db = await database;
+    final List<Map<String, dynamic>> maps = await db.query('schedules', where: 'id = ?', whereArgs: [id]);
+    if (maps.isNotEmpty) {
+      return Schedule.fromMap(maps.first);
+    }
+    return null;
+  }
+
+  Future<Reminder?> getReminderById(int id) async {
+    final db = await database;
+    final List<Map<String, dynamic>> maps = await db.query('reminders', where: 'id = ?', whereArgs: [id]);
+    if (maps.isNotEmpty) {
+      return Reminder.fromMap(maps.first);
+    }
+    return null;
+  }
+
+
+
   Future<List<Subject>> getSubjects() async {
     final db = await database;
     List<Map<String, dynamic>> maps = await db.query('subjects');
@@ -90,21 +136,30 @@ class DatabaseHelper {
   Future<List<Schedule>> getSchedules() async {
     final db = await database;
     List<Map<String, dynamic>> maps = await db.query('schedules');
-    return List.generate(maps.length, (i) {
-      return Schedule(
-        id: maps[i]['id'],
-        subjectId: maps[i]['subject_id'],
-        startDate: maps[i]['start_date'],
-        endDate: maps[i]['end_date'],
-        startTime: maps[i]['start_time'],
-        endTime: maps[i]['end_time'],
-        repeat: maps[i]['repeat'],
-        status: maps[i]['status'],
-        reminderTime: maps[i]['reminder_time'],
-      );
-    });
-  }
 
+    List<Schedule> schedules = [];
+
+    for (var map in maps) {
+      int subjectId = map['subject_id'] as int;
+      Subject? subject = await getSubjectById(subjectId);
+
+      Schedule schedule = Schedule(
+        id: map['id'],
+        subjectId: subjectId,
+        subject: subject, // Assign the retrieved subject to the schedule
+        startDate: map['start_date'],
+        endDate: map['end_date'],
+        startTime: map['start_time'],
+        endTime: map['end_time'],
+        repeat: map['repeat'],
+        status: map['status'],
+        reminderTime: map['reminder_time'],
+      );
+      schedules.add(schedule);
+    }
+
+    return schedules;
+  }
   Future<List<Reminder>> getReminders() async {
     final db = await database;
     List<Map<String, dynamic>> maps = await db.query('reminders');
@@ -116,4 +171,21 @@ class DatabaseHelper {
       );
     });
   }
+
+
+  Future<void> deleteSubjectById(int id) async {
+    final db = await database;
+    await db.delete('subjects', where: 'id = ?', whereArgs: [id]);
+  }
+
+  Future<void> deleteScheduleById(int id) async {
+    final db = await database;
+    await db.delete('schedules', where: 'id = ?', whereArgs: [id]);
+  }
+
+  Future<void> deleteReminderById(int id) async {
+    final db = await database;
+    await db.delete('reminders', where: 'id = ?', whereArgs: [id]);
+  }
+
 }

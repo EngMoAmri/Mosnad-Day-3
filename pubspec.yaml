@@ -43,6 +43,7 @@ dependencies:
   android_alarm_manager_plus: ^4.0.3
   flutter_local_notifications: ^17.1.2
   receive_intent: ^0.2.5
+  percent_indicator: ^3.4.0
 
 dev_dependencies:
   flutter_test:
