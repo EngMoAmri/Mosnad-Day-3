@@ -317,7 +317,7 @@ class AddSchedulePage extends StatelessWidget {
         ElevatedButton(
             style: ElevatedButton.styleFrom(foregroundColor: Colors.white, backgroundColor: Colors.black),
             onPressed: ()=>
-                modelView.addSchedule(), child: const Text("إضافة"))
+                modelView.addSchedule(context), child: const Text("إضافة"))
         )
       ],
     );

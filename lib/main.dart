@@ -6,9 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
 import 'package:mosnad_3/views/add_scedule_page.dart';
-import 'package:receive_intent/receive_intent.dart';
 
-import 'database/my_database.dart';
 import 'package:android_alarm_manager_plus/android_alarm_manager_plus.dart';
 
 FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
@@ -63,7 +61,6 @@ void main() async{
   WidgetsFlutterBinding.ensureInitialized();
 
   await AndroidAlarmManager.initialize();
-  await MyDatabase.open();
 
   runApp(const MyApp());
 }

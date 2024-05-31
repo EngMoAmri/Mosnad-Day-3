@@ -1,7 +1,12 @@
 import 'package:android_alarm_manager_plus/android_alarm_manager_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:mosnad_3/database/database_helper.dart';
 import 'package:mosnad_3/main.dart';
+import 'package:mosnad_3/models/remainder_model.dart';
+import 'package:mosnad_3/models/schedule_model.dart';
+import 'package:mosnad_3/models/subject_model.dart';
+import 'package:mosnad_3/views/dialogs/action_dialog.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 class AddScheduleViewModel extends GetxController {
@@ -60,13 +65,50 @@ class AddScheduleViewModel extends GetxController {
     }
     return selectedDays;
   }
-  void addSchedule() async{
+  void addSchedule(context) async{
     if(!formKey.currentState!.validate()){
       return;
     }
+    // checking if there is conflict
+    var schedules = await DatabaseHelper().getSchedules();
+    var schedule = Schedule(
+        startDate: startDate.value!.millisecondsSinceEpoch,
+        endDate: endDate.value!.millisecondsSinceEpoch,
+        startTime: startTimeController.text,
+        endTime: endTimeController.text,
+        repeat: repeat.value==1?"daily":"specific",
+        status: "active",
+        reminderTime: int.parse(reminderTimeValue.value)
+    );
+    for(var s in schedules){
+      if((s.startDate! <= schedule.endDate!) && (s.endDate! >= schedule.startDate!)){
+        var aStartTime = TimeOfDay(hour:  int.parse(s.startTime!.split(":")[0]),minute:  int.parse(s.startTime!.split(":")[1]));
+        var bStartTime = TimeOfDay(hour:  int.parse(schedule.startTime!.split(":")[0]),minute:  int.parse(schedule.startTime!.split(":")[1]));
+        var aEndTime = TimeOfDay(hour:  int.parse(s.endTime!.split(":")[0]),minute:  int.parse(s.endTime!.split(":")[1]));
+        var bEndTime = TimeOfDay(hour:  int.parse(schedule.endTime!.split(":")[0]),minute:  int.parse(schedule.endTime!.split(":")[1]));
+        if(toDouble(aStartTime)<=toDouble(bEndTime)&&toDouble(aEndTime)>=toDouble(bStartTime)){
+          if(await showActionDialog(context, "يوجد تعارض مع جدول آخر هل تريد الإضافة") == false){
+            return;
+          }
+        }
+      }
+    }
+    print("no");
     saving.value = true;
     // Add to local database then
+    var subject=Subject(name:  subjectNameController.text);
+    subject.id = await DatabaseHelper().insertSubject(subject);
+    schedule.subjectId = subject.id;
 
+    schedule.id = await DatabaseHelper().insertSchedule(schedule);
+    if(repeat.value==2){
+      List<String> daysNames = ["السبت", "الأحد", "الإثنان", "الثلاثاء", "الأربعاء", "الخميس", "الجمعة"];
+      for(var day in daysNames){
+        if(days.value[daysNames.indexOf(day)]){
+          await DatabaseHelper().insertReminder(Reminder(scheduleId: schedule.id, day: daysNames.indexOf(day)));
+        }
+      }
+    }
     int scheduleId = 0;// get the id from the database
     var startDateTime = DateTime(startDate.value!.year,startDate.value!.month,startDate.value!.day,
         int.parse(startTimeController.text.split(":")[0]), int.parse(startTimeController.text.split(":")[1]));
@@ -132,7 +174,7 @@ class AddScheduleViewModel extends GetxController {
       }
     }
     saving.value = false;
-
+    Get.back(result: true);
   }
 
   // void testAddSchedule() async{
@@ -215,3 +257,4 @@ extension DateTimeExtension on DateTime {
     );
   }
 }
+double toDouble(TimeOfDay myTime) => myTime.hour + myTime.minute/60.0;
