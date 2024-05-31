@@ -3,12 +3,9 @@ name: Build
 # Controls what will trigger the workflow.
 # Change it to your needs.
 on:
-  # A new push to the "main" branch.
   push:
-    branches: [ "release" ]
-
-    # Allows to trigger the workflow from GitHub interfaces.
-    workflow_dispatch:
+    tags:
+      - "release-v*.*.*" # on every version tag will build a new android artifact example: v3.1.2+6
 
 # A single workflow can have multiple jobs.
 jobs:
