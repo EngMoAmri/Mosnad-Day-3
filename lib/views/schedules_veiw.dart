@@ -95,22 +95,22 @@ class SchedulesView extends StatelessWidget {
                     ),
                   ],
                 ),
-                Stack(
+                const Stack(
                   alignment: AlignmentDirectional.centerEnd,
                   children: [
                     TopContainer(isBackButton: false,),
-                    Row(
-        mainAxisAlignment : MainAxisAlignment.end,
-                      children: [
-                        FloatingActionButton(
-                          onPressed: () {
-                            Get.to(AddSchedulePage()); // Navigates to AddSchedulePage
-                          },
-                          child: Icon(Icons.add),
-                        ),
-                      SizedBox(width: 20,)
-                      ],
-                    ),
+        //             Row(
+        // mainAxisAlignment : MainAxisAlignment.end,
+        //               children: [
+        //                 FloatingActionButton(
+        //                   onPressed: () {
+        //                     Get.to(AddSchedulePage()); // Navigates to AddSchedulePage
+        //                   },
+        //                   child: Icon(Icons.add),
+        //                 ),
+        //               SizedBox(width: 20,)
+        //               ],
+        //             ),
                   ],
                 ),
 
@@ -119,6 +119,18 @@ class SchedulesView extends StatelessWidget {
           );
         }
       }),
+      floatingActionButton:   FloatingActionButton(
+        onPressed: () {
+          Get.to(AddSchedulePage())?.then((value) {
+            print("added $value");
+            if(value==true){
+              viewModel.fetchSchedules();
+            }
+          }); // Navigates to AddSchedulePage
+        },
+        child: Icon(Icons.add),
+      ),
+
     );
   }
 

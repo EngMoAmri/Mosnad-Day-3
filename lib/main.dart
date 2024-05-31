@@ -8,6 +8,7 @@ import 'package:get/get.dart';
 import 'package:mosnad_3/views/add_scedule_page.dart';
 
 import 'package:android_alarm_manager_plus/android_alarm_manager_plus.dart';
+import 'package:mosnad_3/views/schedules_veiw.dart';
 
 FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
 
@@ -80,7 +81,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const AddSchedulePage(),
+      home: SchedulesView(),
     );
   }
 }
