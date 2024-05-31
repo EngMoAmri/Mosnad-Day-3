@@ -16,7 +16,7 @@ jobs:
   build_android:
     # Defines what operating system will be used for the actions.
     # For android, we will use Linux GitHub-Hosted Runner.
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
     # Defines what step should be passed for successful run
     steps:
       # Checkout to the selected branch
@@ -44,8 +44,13 @@ jobs:
         run: flutter pub get
       - name: Build release app apk
         run: flutter build apk
-      - name: Releasing
-        uses: sangatdesai/release-apk@main
-        env:
-          GITHUB_TOKEN: ${{ secrets.TOKEN }}
-          APP_FOLDER: build
+      #      - name: Releasing
+      #        uses: sangatdesai/release-apk@main
+      #        env:
+      #          GITHUB_TOKEN: ${{ secrets.TOKEN }}
+      #          APP_FOLDER: build
+      - name: Create Github Release
+        uses: ncipollo/release-action@v1
+        with:
+          artifacts: "build/app/outputs/bundle/release/*.apk"
+          token: ${{ secrets.TOKEN }}
