@@ -32,6 +32,13 @@ jobs:
           # Enables cache for flutter packages
           # Speed up the process
           cache: true
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'zulu'
+          java-version: '17'
+          cache: 'gradle'
+          check-latest: true
       # Get Flutter project dependencies
       - name: Get dependencies
         run: flutter pub get
